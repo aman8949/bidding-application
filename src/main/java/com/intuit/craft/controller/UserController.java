@@ -1,6 +1,5 @@
 package com.intuit.craft.controller;
 
-import com.intuit.craft.excpetion.UserNotFoundException;
 import com.intuit.craft.model.User;
 import com.intuit.craft.request.UserRequestDto;
 import com.intuit.craft.service.UserService;
