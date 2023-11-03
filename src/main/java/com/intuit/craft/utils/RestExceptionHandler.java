@@ -1,9 +1,6 @@
 package com.intuit.craft.utils;
 
-import com.intuit.craft.excpetion.AuctionNotFoundException;
-import com.intuit.craft.excpetion.ProductNotFoundException;
-import com.intuit.craft.excpetion.UserNotCreatedException;
-import com.intuit.craft.excpetion.UserNotFoundException;
+import com.intuit.craft.excpetion.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -20,8 +17,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(UserNotCreatedException.class)
-    protected ResponseEntity<Object> handleUserNotCreated(UserNotCreatedException ex) {
+    @ExceptionHandler(EntityNotCreatedException.class)
+    protected ResponseEntity<Object> handleUserNotCreated(EntityNotCreatedException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -32,6 +29,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AuctionNotFoundException.class)
     protected ResponseEntity<Object> handleAuctionNotFound(AuctionNotFoundException ex) {
-        return new ResponseEntity<>("Bidding for the mentioned auction is not open or has already ended", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidInputException.class)
+    protected ResponseEntity<Object> handleInvalidCategoryProvided(InvalidInputException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(OperationNotAllowedException.class)
+    protected ResponseEntity<Object> handleInvalidOperation(OperationNotAllowedException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 }

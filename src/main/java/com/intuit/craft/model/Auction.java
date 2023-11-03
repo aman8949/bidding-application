@@ -29,11 +29,11 @@ public class Auction {
     @Column(name = "current_max_bid")
     private Double currentMaxBid;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @OneToOne
-    @JoinColumn(name = "winning_user_id", referencedColumnName = "user_id")
+    @ManyToOne
+    @JoinColumn(name = "winner_user_id", referencedColumnName = "user_id")
     private User currentWinningUser;
 }

@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Data
 @Builder
 @Entity
@@ -31,4 +33,16 @@ public class User {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(this.getClass() != this.getClass()) return false;
+        User user = (User) o;
+        return user.id == this.id;
+    }
+    @Override
+    public int hashCode(){
+        return Objects.hash(getId());
+    }
 }

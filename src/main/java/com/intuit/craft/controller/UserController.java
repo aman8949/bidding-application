@@ -25,7 +25,7 @@ public class UserController {
 
     @Operation(summary = "Get User by userId", description = "userId should be valid")
     @GetMapping("/{id}")
-    public ResponseEntity<User> userDetails(@PathVariable("id") Long userId) throws UserNotFoundException
+    public ResponseEntity<User> userDetails(@PathVariable("id") Long userId)
     {
         // fetch details from user table and return
         return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
@@ -33,7 +33,7 @@ public class UserController {
 
     @Operation(summary = "get all users")
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUser() throws UserNotFoundException
+    public ResponseEntity<List<User>> getAllUser()
     {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
