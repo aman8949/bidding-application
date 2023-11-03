@@ -38,8 +38,12 @@ public class AuctionController {
 
     @Operation(summary = "Get all auctions for a category")
     @GetMapping("/category")
-    public ResponseEntity<List<Auction>> getAllAuctionsForProductCategory(@RequestParam(name = "category") String category)
+    public ResponseEntity<List<Auction>> getAllAuctionsForProductCategory(@RequestParam(name = "category") String category,
+                                                                          @RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+                                                                          @RequestParam(name = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+                                                                          @RequestParam(name = "sortBy", defaultValue = "startTime", required = false) String sortBy,
+                                                                          @RequestParam(name = "sortDir", defaultValue = "asc", required = false) String sortDir)
     {
-        return new ResponseEntity<>(auctionService.getAllAuctionsByCategory(category), HttpStatus.OK);
+        return new ResponseEntity<>(auctionService.getAllAuctionsByCategory(category, pageNumber, pageSize, sortBy, sortDir), HttpStatus.OK);
     }
 }

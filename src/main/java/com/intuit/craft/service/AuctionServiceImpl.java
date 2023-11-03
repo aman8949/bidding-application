@@ -9,6 +9,10 @@ import com.intuit.craft.request.AuctionRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -65,10 +69,18 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
-    public List<Auction> getAllAuctionsByCategory(String categoryQuery) throws AuctionNotFoundException, InvalidInputException {
+    public List<Auction> getAllAuctionsByCategory(String categoryQuery, Integer pageNumber, Integer pageSize, String sortBy, String sortDir) throws AuctionNotFoundException, InvalidInputException {
+        Sort sort = null;
+        if(sortDir.equalsIgnoreCase("asc"))
+            sort = Sort.by(sortBy).ascending();
+        else
+            sort = Sort.by(sortBy).descending();
+        Pageable p = PageRequest.of(pageNumber, pageSize, sort);
+
         try{
             Category category = Category.valueOf(categoryQuery);
-            List<Auction> auctionList = auctionRepository.findByProductCategory(category);
+            Page<Auction> fetchedPage = auctionRepository.findByProductCategoryAndEndTimeAfter(category, LocalDateTime.now(), p);
+            List<Auction> auctionList = fetchedPage.getContent();
             return auctionList;
         }
         catch(IllegalArgumentException e) {

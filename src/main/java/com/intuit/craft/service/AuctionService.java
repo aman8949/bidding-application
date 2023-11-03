@@ -12,5 +12,5 @@ public interface AuctionService {
     Auction getAuction(Long auctionId) throws AuctionNotFoundException;
     Auction createAuction(AuctionRequestDto auction) throws EntityNotCreatedException, OperationNotAllowedException;
 
-    List<Auction> getAllAuctionsByCategory(String category) throws AuctionNotFoundException;
+    List<Auction> getAllAuctionsByCategory(String category, Integer pageNumber, Integer pageSize, String sortBy, String sortDir) throws AuctionNotFoundException;
 }
