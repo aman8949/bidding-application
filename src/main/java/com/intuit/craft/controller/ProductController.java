@@ -50,4 +50,12 @@ public class ProductController {
     {
         return new ResponseEntity<>(productService.getAllProductsByCategory(category), HttpStatus.OK);
     }
+
+    @Operation(summary = "Delete a product by id")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable("id") Long productId){
+        // remove post from table with given id
+        productService.deleteProduct(productId);
+        return new ResponseEntity<String>("Deleted", HttpStatus.OK);
+    }
 }

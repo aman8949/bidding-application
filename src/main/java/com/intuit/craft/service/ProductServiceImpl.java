@@ -78,4 +78,9 @@ public class ProductServiceImpl implements ProductService{
             throw new ProductNotFoundException("Invalid Category Provided");
         }
     }
+
+    public void deleteProduct(final Long productId) throws ProductNotFoundException {
+        Product product = getProduct(productId);
+        productRepository.delete(product);
+    }
 }

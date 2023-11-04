@@ -12,4 +12,6 @@ public interface ProductService {
     Product addProduct(ProductRequestDto product) throws InvalidInputException, EntityNotCreatedException, OperationNotAllowedException;
 
     List<Product> getAllProductsByCategory(String category) throws InvalidInputException, ProductNotFoundException;
+
+    void deleteProduct(final Long productId) throws ProductNotFoundException;
 }
