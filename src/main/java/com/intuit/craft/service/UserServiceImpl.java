@@ -6,6 +6,7 @@ import com.intuit.craft.excpetion.InvalidInputException;
 import com.intuit.craft.excpetion.UserNotFoundException;
 import com.intuit.craft.model.User;
 import com.intuit.craft.repository.UserRepository;
+import com.intuit.craft.request.BidRequestDto;
 import com.intuit.craft.request.UserRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,11 @@ public class UserServiceImpl implements UserService{
             log.error("Error while saving into database :{}", e.getMessage());
             throw new EntityNotCreatedException("Error while creating the user");
         }
+    }
+
+    @Override
+    public Boolean isRoleType(BidRequestDto bidRequestDto, Role role) throws UserNotFoundException {
+        User user = getUser(bidRequestDto.getUserId());
+        return user.getRole().equals(role);
     }
 }

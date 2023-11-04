@@ -1,16 +1,15 @@
 package com.intuit.craft.service;
 
 import com.intuit.craft.enums.Category;
-import com.intuit.craft.enums.Role;
 import com.intuit.craft.excpetion.*;
 import com.intuit.craft.model.Auction;
 import com.intuit.craft.model.Product;
-import com.intuit.craft.model.User;
 import com.intuit.craft.repository.AuctionRepository;
 import com.intuit.craft.request.AuctionRequestDto;
-import com.intuit.craft.request.BidRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.DataAccessException;
@@ -46,7 +45,7 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
-    @Cacheable("auction")
+    @Cacheable(cacheNames = "auction", key="#auctionId", unless="#result.hasEnded")
     public Auction getAuction(final Long auctionId) throws AuctionNotFoundException {
         log.info("Received DB Calls: {}", auctionId);
         Optional<Auction> auction = auctionRepository.findById(auctionId);
@@ -67,7 +66,7 @@ public class AuctionServiceImpl implements AuctionService {
 
             if(endT.isBefore(startT) || startT.isBefore(currT))
                 throw new InvalidInputException("Invalid Date Time Provided");
-            Auction auction = Auction.builder().product(product).startTime(startT).endTime(endT).currentMaxBid(product.getBasePrice()).build();
+            Auction auction = Auction.builder().product(product).startTime(startT).endTime(endT).currentMaxBid(product.getBasePrice()).hasEnded(false).build();
             return auctionRepository.saveAndFlush(auction);
         }
         catch (DateTimeParseException e){
@@ -101,17 +100,15 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
-    public void validateBid(final BidRequestDto bidRequestDto) throws AuctionNotFoundException, OperationNotAllowedException, UserNotFoundException{
-        Auction auction = getAuction(bidRequestDto.getAuctionId());
-        System.out.println(auction.toString());
-        User bidder = userService.getUser(bidRequestDto.getUserId());
-        if(bidder.getRole() != Role.BIDDER)
-            throw new OperationNotAllowedException("Role Bidder is expected to make bids only.");
+    @CachePut(cacheNames = "auction", key="#auction.id")
+    public Auction updateAuction(Auction auction) {
+        return auctionRepository.save(auction);
+    }
 
-        if(bidRequestDto.getBiddingTime().isBefore(auction.getStartTime()) || bidRequestDto.getBiddingTime().isAfter(auction.getEndTime()))
-            throw new OperationNotAllowedException("Auction is not active at this time.");
-
-        if(bidRequestDto.getBidValue() < auction.getProduct().getBasePrice())
-            throw new OperationNotAllowedException("Bidding for a price lower than base price is not expected");
+    @Override
+    @CacheEvict(value = "auction", key = "#auction.id")
+    public void evictAuctionFromCache(Auction auction) {
+        auction.setHasEnded(true);
+        auctionRepository.save(auction);
     }
 }

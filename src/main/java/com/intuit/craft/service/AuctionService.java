@@ -15,5 +15,7 @@ public interface AuctionService {
 
     List<Auction> getAllAuctionsByCategory(String category, Integer pageNumber, Integer pageSize, String sortBy, String sortDir) throws AuctionNotFoundException;
 
-    void validateBid(BidRequestDto bidRequestDto);
+    Auction updateAuction(Auction auction);
+
+    void evictAuctionFromCache(Auction auction);
 }
