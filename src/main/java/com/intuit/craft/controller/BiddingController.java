@@ -1,7 +1,7 @@
 package com.intuit.craft.controller;
 
 import com.intuit.craft.request.BidRequestDto;
-import com.intuit.craft.service.GameService;
+import com.intuit.craft.service.BiddingServices.GameService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,11 @@
-package com.intuit.craft.service;
+package com.intuit.craft.service.BiddingServices;
 
 import com.intuit.craft.enums.BidMessageType;
 import com.intuit.craft.model.Auction;
 import com.intuit.craft.model.User;
 import com.intuit.craft.request.BidRequestDto;
+import com.intuit.craft.service.AuctionService;
+import com.intuit.craft.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.kafka.annotation.KafkaListener;

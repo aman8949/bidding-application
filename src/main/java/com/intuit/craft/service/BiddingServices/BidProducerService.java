@@ -1,4 +1,4 @@
-package com.intuit.craft.service;
+package com.intuit.craft.service.BiddingServices;
 
 import com.intuit.craft.request.BidRequestDto;
 import org.springframework.kafka.core.KafkaTemplate;
