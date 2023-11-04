@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUser(Long userId) throws UserNotFoundException {
+    public User getUser(final Long userId) throws UserNotFoundException {
         Optional<User> user = userRepository.findById(userId);
         if(user.isEmpty())
             throw new UserNotFoundException("User not found");
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User addUser(UserRequestDto userObj) throws EntityNotCreatedException, InvalidInputException {
+    public User addUser(final UserRequestDto userObj) throws EntityNotCreatedException, InvalidInputException {
         log.info(userObj.toString());
         User user = null;
         try {

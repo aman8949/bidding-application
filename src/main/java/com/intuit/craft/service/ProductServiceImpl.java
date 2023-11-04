@@ -25,7 +25,7 @@ public class ProductServiceImpl implements ProductService{
     public ProductServiceImpl(ProductRepository productRepository, UserService userService) {this.productRepository = productRepository;this.userService = userService;}
 
     @Override
-    public Product getProduct(Long productId) throws ProductNotFoundException {
+    public Product getProduct(final Long productId) throws ProductNotFoundException {
         Optional<Product> product = productRepository.findById(productId);
         if(product.isEmpty())
             throw new ProductNotFoundException("Product with requested id does not exists");
@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> getAllProductsByMerchant(Long userId) throws UserNotFoundException, ProductNotFoundException, OperationNotAllowedException {
+    public List<Product> getAllProductsByMerchant(final Long userId) throws UserNotFoundException, ProductNotFoundException, OperationNotAllowedException {
         User user = userService.getUser(userId);
 
         if(!user.getRole().equals(Role.MERCHANT))
@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product addProduct(ProductRequestDto productObj) throws InvalidInputException, EntityNotCreatedException, OperationNotAllowedException {
+    public Product addProduct(final ProductRequestDto productObj) throws InvalidInputException, EntityNotCreatedException, OperationNotAllowedException {
         log.info(productObj.toString());
         User user = userService.getUser(productObj.getUserId());
         if(!user.getRole().equals(Role.MERCHANT))
@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> getAllProductsByCategory(String category) throws ProductNotFoundException {
+    public List<Product> getAllProductsByCategory(final String category) throws ProductNotFoundException {
         try{
             List<Product> productList = productRepository.findByCategory(Category.valueOf(category));
             if(productList.isEmpty())

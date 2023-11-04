@@ -4,6 +4,7 @@ import com.intuit.craft.excpetion.*;
 import com.intuit.craft.model.Auction;
 import com.intuit.craft.model.Product;
 import com.intuit.craft.request.AuctionRequestDto;
+import com.intuit.craft.request.BidRequestDto;
 import com.intuit.craft.request.ProductRequestDto;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface AuctionService {
     Auction createAuction(AuctionRequestDto auction) throws EntityNotCreatedException, OperationNotAllowedException;
 
     List<Auction> getAllAuctionsByCategory(String category, Integer pageNumber, Integer pageSize, String sortBy, String sortDir) throws AuctionNotFoundException;
+
+    void validateBid(BidRequestDto bidRequestDto);
 }
