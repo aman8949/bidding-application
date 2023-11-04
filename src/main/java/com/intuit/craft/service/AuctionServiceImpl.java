@@ -111,4 +111,11 @@ public class AuctionServiceImpl implements AuctionService {
         auction.setHasEnded(true);
         auctionRepository.save(auction);
     }
+
+    @Override
+    @CacheEvict(value = "auction", key = "#auction.id")
+    public void deleteAuction(Long auctionId) throws AuctionNotFoundException{
+        Auction auction = getAuction(auctionId);
+        auctionRepository.delete(auction);
+    }
 }

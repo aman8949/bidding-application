@@ -46,4 +46,12 @@ public class AuctionController {
     {
         return new ResponseEntity<>(auctionService.getAllAuctionsByCategory(category, pageNumber, pageSize, sortBy, sortDir), HttpStatus.OK);
     }
+
+    @Operation(summary = "Delete an auction by id")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteAuction(@PathVariable("id") Long auctionId){
+        // remove auction from table with given id
+        auctionService.deleteAuction(auctionId);
+        return new ResponseEntity<>("Deleted", HttpStatus.OK);
+    }
 }

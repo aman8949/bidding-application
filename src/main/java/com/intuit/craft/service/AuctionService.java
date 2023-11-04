@@ -18,4 +18,6 @@ public interface AuctionService {
     Auction updateAuction(Auction auction);
 
     void evictAuctionFromCache(Auction auction);
+
+    void deleteAuction(Long auctionId) throws AuctionNotFoundException;
 }
