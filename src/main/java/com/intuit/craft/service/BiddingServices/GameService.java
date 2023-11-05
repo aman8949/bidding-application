@@ -28,7 +28,10 @@ public class GameService {
     }
 
     public boolean isLastMessage(final BidRequestDto bidRequestDto) throws UserNotFoundException, OperationNotAllowedException {
-        return userService.isRoleType(bidRequestDto, Role.SYSTEM) && bidRequestDto.getMessageType().equals(BidMessageType.END_OF_BID.toString());
+        boolean isEnd =  userService.isRoleType(bidRequestDto, Role.SYSTEM) && bidRequestDto.getMessageType().equals(BidMessageType.END_OF_BID.toString());
+        if(bidRequestDto.getMessageType().equals(BidMessageType.END_OF_BID.toString()) && !isEnd)
+            throw new OperationNotAllowedException("User is not authorized to perform the bid end operation.");
+        return isEnd;
     }
 
     public void processBidRequest(final BidRequestDto bidRequestDto) throws OperationNotAllowedException, AuctionNotFoundException {

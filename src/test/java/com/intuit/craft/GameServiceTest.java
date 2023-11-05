@@ -47,9 +47,6 @@ public class GameServiceTest {
     @Autowired
     private AuctionService auctionService;
 
-    @MockBean
-    private BidProducerService bidProducerService;
-
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Test

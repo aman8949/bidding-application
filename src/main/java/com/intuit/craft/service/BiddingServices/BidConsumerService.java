@@ -7,7 +7,6 @@ import com.intuit.craft.request.BidRequestDto;
 import com.intuit.craft.service.AuctionService;
 import com.intuit.craft.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +17,8 @@ public class BidConsumerService {
 
     private final UserService userService;
 
-    private final RedisTemplate<String, Auction> redisTemplate;
-
     @Autowired
-    public BidConsumerService(AuctionService auctionService, UserService userService, RedisTemplate redisTemplate){this.auctionService = auctionService;this.userService = userService;this.redisTemplate = redisTemplate;}
+    public BidConsumerService(AuctionService auctionService, UserService userService){this.auctionService = auctionService;this.userService = userService;}
 
     @KafkaListener(topics = "kafkaTopic", groupId = "group_id")
     public void consumeMessage(BidRequestDto bidRequestDto) {
@@ -35,7 +32,7 @@ public class BidConsumerService {
         if(BidMessageType.END_OF_BID.equals(BidMessageType.valueOf(bidRequestDto.getMessageType())))
         auctionService.evictAuctionFromCache(auction);
         else{
-            if(auction.getCurrentMaxBid() < bidRequestDto.getBidValue()){
+            if(auction.getCurrentMaxBid() < bidRequestDto.getBidValue() || (auction.getCurrentWinningUser() == null && auction.getCurrentMaxBid().equals(bidRequestDto.getBidValue()))){
                 User user = userService.getUser(bidRequestDto.getUserId());
                 auction.setCurrentMaxBid(bidRequestDto.getBidValue());
                 auction.setCurrentWinningUser(user);

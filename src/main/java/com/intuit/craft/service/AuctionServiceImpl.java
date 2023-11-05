@@ -116,8 +116,12 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     @CacheEvict(value = "auction", key = "#auctionId")
-    public void deleteAuction(Long auctionId) throws AuctionNotFoundException{
+    public void deleteAuction(Long auctionId) throws AuctionNotFoundException, OperationNotAllowedException{
         Auction auction = getAuction(auctionId);
-        auctionRepository.delete(auction);
+        LocalDateTime currT = LocalDateTime.now();
+        if(auction.isHasEnded() || (currT.isBefore(auction.getStartTime())))
+            auctionRepository.delete(auction);
+        else
+            throw new OperationNotAllowedException("Auction cannot be deleted now");
     }
 }

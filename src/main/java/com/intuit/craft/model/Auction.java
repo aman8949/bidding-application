@@ -26,24 +26,24 @@ public class Auction implements Serializable {
     @Column(name = "auction_id")
     private long id;
 
-    @Column(name = "has_ended")
+    @Column(name = "has_ended", nullable = false)
     private boolean hasEnded;
 
-    @Column(name = "start_time")
+    @Column(name = "start_time", nullable = false)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime startTime;
 
-    @Column(name = "end_time")
+    @Column(name = "end_time", nullable = false)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime endTime;
 
-    @Column(name = "current_max_bid")
+    @Column(name = "current_max_bid", nullable = false)
     private Double currentMaxBid;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
 

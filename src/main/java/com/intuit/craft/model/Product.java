@@ -2,6 +2,7 @@ package com.intuit.craft.model;
 
 import com.intuit.craft.enums.Category;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,13 +23,13 @@ public class Product implements Serializable {
     @Column(name = "product_id")
     private long id;
 
-    @Column(name = "product")
+    @Column(name = "product", nullable = false)
     private String title;
 
-    @Column(name = "base_price")
+    @Column(name = "base_price", nullable = false)
     private Double basePrice;
 
-    @Column(name = "product_category")
+    @Column(name = "product_category", nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
 
@@ -36,7 +37,7 @@ public class Product implements Serializable {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "merchant_id")
+    @JoinColumn(name = "merchant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 }

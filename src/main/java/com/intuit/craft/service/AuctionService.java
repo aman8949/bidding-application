@@ -2,10 +2,7 @@ package com.intuit.craft.service;
 
 import com.intuit.craft.excpetion.*;
 import com.intuit.craft.model.Auction;
-import com.intuit.craft.model.Product;
 import com.intuit.craft.request.AuctionRequestDto;
-import com.intuit.craft.request.BidRequestDto;
-import com.intuit.craft.request.ProductRequestDto;
 
 import java.util.List;
 
@@ -19,5 +16,5 @@ public interface AuctionService {
 
     void evictAuctionFromCache(Auction auction);
 
-    void deleteAuction(Long auctionId) throws AuctionNotFoundException;
+    void deleteAuction(Long auctionId) throws AuctionNotFoundException, OperationNotAllowedException;
 }
