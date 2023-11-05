@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService{
             user.setEmailId(userObj.getEmailId());
             user.setRole(Role.valueOf(userObj.getRole()));
             user.setFirstName(userObj.getFirstName());
-            userObj.setLastName(userObj.getLastName());
+            user.setLastName(userObj.getLastName());
             return userRepository.saveAndFlush(user);
         }
         catch(IllegalArgumentException e){
