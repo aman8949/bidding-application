@@ -43,9 +43,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public User addUser(final UserRequestDto userObj) throws EntityNotCreatedException, InvalidInputException {
         log.info(userObj.toString());
-        User user = null;
+        User user = new User();
         try {
-            user = User.builder().firstName(userObj.getFirstName()).lastName(userObj.getLastName()).emailId(userObj.getEmailId()).role(Role.valueOf(userObj.getRole())).build();
+            user.setEmailId(userObj.getEmailId());
+            user.setRole(Role.valueOf(userObj.getRole()));
+            user.setFirstName(userObj.getFirstName());
+            userObj.setLastName(userObj.getLastName());
             return userRepository.saveAndFlush(user);
         }
         catch(IllegalArgumentException e){

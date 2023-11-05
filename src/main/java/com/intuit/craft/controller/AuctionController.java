@@ -4,6 +4,7 @@ import com.intuit.craft.model.Auction;
 import com.intuit.craft.request.AuctionRequestDto;
 import com.intuit.craft.service.AuctionService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +32,7 @@ public class AuctionController {
 
     @Operation(summary = "Create new auction")
     @PostMapping("/create")
-    public ResponseEntity<Auction> createAuction(@RequestBody AuctionRequestDto auctionRequestDto)
+    public ResponseEntity<Auction> createAuction(@Valid @RequestBody AuctionRequestDto auctionRequestDto)
     {
         return new ResponseEntity<>(auctionService.createAuction(auctionRequestDto), HttpStatus.CREATED);
     }

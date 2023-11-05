@@ -4,6 +4,7 @@ import com.intuit.craft.model.User;
 import com.intuit.craft.request.UserRequestDto;
 import com.intuit.craft.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -39,7 +40,7 @@ public class UserController {
 
     @Operation(summary = "Create new user")
     @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody UserRequestDto user)
+    public ResponseEntity<User> createUser(@Valid @RequestBody UserRequestDto user)
     {
         return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
     }

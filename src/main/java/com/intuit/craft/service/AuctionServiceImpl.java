@@ -33,14 +33,11 @@ public class AuctionServiceImpl implements AuctionService {
 
     private final ProductService productService;
 
-    private final UserService userService;
-
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     @Autowired
-    public AuctionServiceImpl(AuctionRepository auctionRepository, UserService userService, ProductService productService)
+    public AuctionServiceImpl(AuctionRepository auctionRepository, ProductService productService)
     {
         this.auctionRepository = auctionRepository;
-        this.userService = userService;
         this.productService = productService;
     }
 
@@ -66,7 +63,12 @@ public class AuctionServiceImpl implements AuctionService {
 
             if(endT.isBefore(startT) || startT.isBefore(currT))
                 throw new InvalidInputException("Invalid Date Time Provided");
-            Auction auction = Auction.builder().product(product).startTime(startT).endTime(endT).currentMaxBid(product.getBasePrice()).hasEnded(false).build();
+            Auction auction = new Auction();
+            auction.setCurrentMaxBid(product.getBasePrice());
+            auction.setProduct(product);
+            auction.setEndTime(endT);
+            auction.setStartTime(startT);
+            auction.setHasEnded(false);
             return auctionRepository.saveAndFlush(auction);
         }
         catch (DateTimeParseException e){
@@ -113,7 +115,7 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
-    @CacheEvict(value = "auction", key = "#auction.id")
+    @CacheEvict(value = "auction", key = "#auctionId")
     public void deleteAuction(Long auctionId) throws AuctionNotFoundException{
         Auction auction = getAuction(auctionId);
         auctionRepository.delete(auction);

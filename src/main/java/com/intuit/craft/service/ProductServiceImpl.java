@@ -52,7 +52,12 @@ public class ProductServiceImpl implements ProductService{
         if(!user.getRole().equals(Role.MERCHANT))
             throw new OperationNotAllowedException("Operation Forbidden for the roletype");
         try {
-            Product product = Product.builder().title(productObj.getTitle()).basePrice(productObj.getBasePrice()).description(productObj.getDescription()).category(Category.valueOf(productObj.getCategory())).user(user).build();
+            Product product = new Product();
+            product.setUser(user);
+            product.setTitle(productObj.getTitle());
+            product.setCategory(Category.valueOf(productObj.getCategory()));
+            product.setDescription(productObj.getDescription());
+            product.setBasePrice(productObj.getBasePrice());
             return productRepository.saveAndFlush(product);
         }
         catch(IllegalArgumentException e){

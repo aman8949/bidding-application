@@ -11,9 +11,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Data
-@Builder
 @Entity
-@Table(name = "user")
+@Table(name = "`user`")
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements Serializable {
@@ -28,7 +27,7 @@ public class User implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email_id", unique = true)
+    @Column(name = "email_id")
     private String emailId;
 
     @Column(name = "role")

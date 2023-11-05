@@ -1,5 +1,6 @@
 package com.intuit.craft.request;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,8 +13,8 @@ public class AuctionRequestDto {
     private String startTime;
     @NotEmpty
     private String endTime;
-    @NotEmpty
+    @NotNull
     private Long productId;
-    @NotEmpty
+    @NotNull
     private Long userId;
 }

@@ -16,7 +16,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
 @Table(name = "auction")
 @AllArgsConstructor
 @NoArgsConstructor

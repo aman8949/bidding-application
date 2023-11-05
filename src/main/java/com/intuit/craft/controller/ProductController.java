@@ -4,6 +4,7 @@ import com.intuit.craft.model.Product;
 import com.intuit.craft.request.ProductRequestDto;
 import com.intuit.craft.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -39,7 +40,7 @@ public class ProductController {
 
     @Operation(summary = "Create new product")
     @PostMapping("/create")
-    public ResponseEntity<Product> createProduct(@RequestBody ProductRequestDto productRequestDto)
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductRequestDto productRequestDto)
     {
         return new ResponseEntity<>(productService.addProduct(productRequestDto), HttpStatus.CREATED);
     }

@@ -14,7 +14,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "product")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product implements Serializable {

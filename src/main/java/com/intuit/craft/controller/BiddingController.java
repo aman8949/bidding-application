@@ -3,6 +3,7 @@ package com.intuit.craft.controller;
 import com.intuit.craft.request.BidRequestDto;
 import com.intuit.craft.service.BiddingServices.GameService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +22,7 @@ public class BiddingController {
 
     @Operation(summary = "Play a bid for an active auction")
     @PostMapping("")
-    public ResponseEntity<String> createAuction(@RequestBody BidRequestDto bidRequestDto)
+    public ResponseEntity<String> createAuction(@Valid @RequestBody BidRequestDto bidRequestDto)
     {
         gameService.processBidRequest(bidRequestDto);
         return new ResponseEntity<String>("Bid Request has been submitted!", HttpStatus.OK);

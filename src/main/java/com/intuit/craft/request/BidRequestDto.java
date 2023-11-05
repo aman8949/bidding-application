@@ -2,6 +2,7 @@ package com.intuit.craft.request;
 
 import com.intuit.craft.enums.BidMessageType;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,11 +13,11 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class BidRequestDto implements Serializable {
-    @NotEmpty
+    @NotNull
     private Long auctionId;
-    @NotEmpty
+    @NotNull
     private Double bidValue;
-    @NotEmpty
+    @NotNull
     private Long userId;
     private String messageType = BidMessageType.BID.toString();
     private LocalDateTime biddingTime = LocalDateTime.now();
