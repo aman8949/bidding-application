@@ -14,39 +14,47 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GameService {
-    BidProducerService bidProducerService;
+    private final BidProducerService bidProducerService;
 
-    AuctionService auctionService;
+    private final AuctionService auctionService;
 
-    UserService userService;
+    private final UserService userService;
 
     @Autowired
-    public GameService(BidProducerService bidProducerService, AuctionService auctionService, UserService userService){
+    public GameService(
+            BidProducerService bidProducerService,
+            AuctionService auctionService,
+            UserService userService) {
         this.bidProducerService = bidProducerService;
         this.auctionService = auctionService;
         this.userService = userService;
     }
 
-    public boolean isLastMessage(final BidRequestDto bidRequestDto) throws UserNotFoundException, OperationNotAllowedException {
-        boolean isEnd =  userService.isRoleType(bidRequestDto, Role.SYSTEM) && bidRequestDto.getMessageType().equals(BidMessageType.END_OF_BID.toString());
-        if(bidRequestDto.getMessageType().equals(BidMessageType.END_OF_BID.toString()) && !isEnd)
-            throw new OperationNotAllowedException("User is not authorized to perform the bid end operation.");
-        return isEnd;
+    public boolean isLastMessage(final BidRequestDto bidRequestDto)
+            throws UserNotFoundException, OperationNotAllowedException {
+        if (userService.isRoleType(bidRequestDto, Role.SYSTEM)
+                && bidRequestDto.getMessageType().equals(BidMessageType.END_OF_BID.toString())) return true;
+        else if (bidRequestDto.getMessageType().equals(BidMessageType.END_OF_BID.toString()))
+            throw new OperationNotAllowedException(
+                    "User is not authorized to perform the bid end operation.");
+        else return false;
     }
 
-    public void processBidRequest(final BidRequestDto bidRequestDto) throws OperationNotAllowedException, AuctionNotFoundException {
-        if(!isLastMessage(bidRequestDto)){
+    public void processBidRequest(final BidRequestDto bidRequestDto)
+            throws OperationNotAllowedException, AuctionNotFoundException {
+        if (!isLastMessage(bidRequestDto)) {
             Auction auction = auctionService.getAuction(bidRequestDto.getAuctionId());
-            if(auction.isHasEnded())
-                throw new OperationNotAllowedException("Auction has already ended");
-            if(!userService.isRoleType(bidRequestDto, Role.BIDDER))
+            if (auction.isHasEnded()) throw new OperationNotAllowedException("Auction has already ended");
+            if (!userService.isRoleType(bidRequestDto, Role.BIDDER))
                 throw new OperationNotAllowedException("Role Bidder is expected to make bids only.");
 
-            if(bidRequestDto.getBiddingTime().isBefore(auction.getStartTime()) || bidRequestDto.getBiddingTime().isAfter(auction.getEndTime()))
+            if (bidRequestDto.getBiddingTime().isBefore(auction.getStartTime())
+                    || bidRequestDto.getBiddingTime().isAfter(auction.getEndTime()))
                 throw new OperationNotAllowedException("Auction is not active at this time.");
 
-            if(bidRequestDto.getBidValue() < auction.getProduct().getBasePrice())
-                throw new OperationNotAllowedException("Bidding for a price lower than base price is not expected");
+            if (bidRequestDto.getBidValue() < auction.getProduct().getBasePrice())
+                throw new OperationNotAllowedException(
+                        "Bidding for a price lower than base price is not expected");
         }
         bidProducerService.sendMessage(bidRequestDto);
     }

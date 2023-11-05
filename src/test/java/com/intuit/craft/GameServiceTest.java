@@ -11,7 +11,6 @@ import com.intuit.craft.request.BidRequestDto;
 import com.intuit.craft.request.ProductRequestDto;
 import com.intuit.craft.request.UserRequestDto;
 import com.intuit.craft.service.AuctionService;
-import com.intuit.craft.service.BiddingServices.BidProducerService;
 import com.intuit.craft.service.BiddingServices.GameService;
 import com.intuit.craft.service.ProductService;
 import com.intuit.craft.service.UserService;
@@ -27,9 +26,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = BiddingSystemApplication.class)
