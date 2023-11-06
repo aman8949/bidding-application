@@ -17,4 +17,6 @@ public interface AuctionService {
     void evictAuctionFromCache(Auction auction);
 
     void deleteAuction(Long auctionId) throws AuctionNotFoundException, OperationNotAllowedException;
+
+    List<Auction> getAlreadyEndedAuctions();
 }

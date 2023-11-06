@@ -30,7 +30,7 @@ public class BidConsumerServiceImpl implements BidConsumerService{
         Auction auction = auctionService.getAuction(bidRequestDto.getAuctionId());
 
         if(BidMessageType.END_OF_BID.equals(BidMessageType.valueOf(bidRequestDto.getMessageType())))
-        auctionService.evictAuctionFromCache(auction);
+            auctionService.evictAuctionFromCache(auction);
         else{
             if(auction.getCurrentWinningBid() < bidRequestDto.getBidValue() || (auction.getCurrentWinningUser() == null && auction.getCurrentWinningBid().equals(bidRequestDto.getBidValue()))){
                 User user = userService.getUser(bidRequestDto.getUserId());

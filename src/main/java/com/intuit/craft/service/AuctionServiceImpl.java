@@ -124,4 +124,11 @@ public class AuctionServiceImpl implements AuctionService {
         else
             throw new OperationNotAllowedException("Auction cannot be deleted now");
     }
+
+    @Override
+    public List<Auction> getAlreadyEndedAuctions(){
+        LocalDateTime startInterval = LocalDateTime.now().minusMinutes(60);
+        LocalDateTime endInterval = LocalDateTime.now().minusMinutes(30);
+        return auctionRepository.findAllByEndTimeBetweenAndHasEnded(startInterval, endInterval, false);
+    }
 }

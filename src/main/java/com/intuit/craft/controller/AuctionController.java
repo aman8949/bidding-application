@@ -14,7 +14,7 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("auction")
+@RequestMapping("auctions")
 public class AuctionController {
     private final AuctionService auctionService;
     AuctionController(AuctionService auctionService)

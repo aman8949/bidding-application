@@ -8,8 +8,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface AuctionRepository extends JpaRepository<Auction, Long> {
     Page<Auction> findByProductCategoryAndEndTimeAfter(Category category, LocalDateTime t, Pageable p);
+
+    List<Auction> findAllByEndTimeBetweenAndHasEnded(LocalDateTime start, LocalDateTime end, boolean hasEnded);
 }
