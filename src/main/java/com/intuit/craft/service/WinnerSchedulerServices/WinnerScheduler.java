@@ -27,8 +27,13 @@ public class WinnerScheduler {
         log.info("Cron Running");
         List<Auction> auctionList = auctionService.getAlreadyEndedAuctions();
         for(Auction auction: auctionList){
-            auctionService.evictAuctionFromCache(auction);
-            notificationService.sendMessage(auction.toString());
+            try{
+                notificationService.sendMessage(auction.toString());
+                auctionService.evictAuctionFromCache(auction);
+            }
+            catch (RuntimeException e){
+                log.error(e.getMessage());
+            }
         }
     }
 }
