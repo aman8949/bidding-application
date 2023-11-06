@@ -46,7 +46,7 @@ public class BidConsumerServiceTest {
         bidRequestDto.setUserId(2L);
         bidRequestDto.setAuctionId(1L);
         when(auctionService.updateAuction(any())).thenReturn(null);
-        bidConsumerService.consumeMessage(bidRequestDto);
+        bidConsumerService.executeBid(bidRequestDto);
         verify(auctionService,times(1)).updateAuction(any());
     }
 }

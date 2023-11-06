@@ -64,7 +64,7 @@ public class AuctionServiceImpl implements AuctionService {
             if(endT.isBefore(startT) || startT.isBefore(currT))
                 throw new InvalidInputException("Invalid Date Time Provided");
             Auction auction = new Auction();
-            auction.setCurrentMaxBid(product.getBasePrice());
+            auction.setCurrentWinningBid(product.getBasePrice());
             auction.setProduct(product);
             auction.setEndTime(endT);
             auction.setStartTime(startT);

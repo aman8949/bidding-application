@@ -4,6 +4,7 @@ import com.intuit.craft.enums.Category;
 import com.intuit.craft.enums.Role;
 import com.intuit.craft.excpetion.InvalidInputException;
 import com.intuit.craft.excpetion.OperationNotAllowedException;
+import com.intuit.craft.excpetion.ProductNotFoundException;
 import com.intuit.craft.model.Product;
 import com.intuit.craft.model.User;
 import com.intuit.craft.request.ProductRequestDto;
@@ -20,6 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = BiddingSystemApplication.class)
@@ -81,6 +83,12 @@ public class ProductServiceTest {
     public void getProductByInvalidCategory_thenOK() {
         assertThrows(InvalidInputException.class, ()->productService
                 .getAllProductsByCategory("Invalid"), "Invalid Category Provided");
+    }
+
+    @Test
+    public void assertProductNotFound_thenOK() {
+        assertThrows(ProductNotFoundException.class, ()->productService
+                .getProduct(1000000L), "ProductNotFound");
     }
 
     @Test

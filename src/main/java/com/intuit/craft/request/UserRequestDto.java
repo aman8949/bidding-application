@@ -3,9 +3,11 @@ package com.intuit.craft.request;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
+import java.io.Serializable;
+
 @Data
 @Builder
-public class UserRequestDto {
+public class UserRequestDto implements Serializable {
     @NotEmpty
     private String firstName;
     @NotEmpty

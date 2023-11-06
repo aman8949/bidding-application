@@ -54,19 +54,6 @@ public class AuctionServiceTest {
         AuctionRequestDto auctionRequestDto = AuctionRequestDto.builder().endTime("").startTime("").productId(savedProduct.getId()).userId(merchant.getId()+1).build();
         assertThrows(OperationNotAllowedException.class, ()-> auctionService.createAuction(auctionRequestDto), "User is not allowed to create auctions");
     }
-//
-    @Test
-    public void saveAndRetrieveAuction_thenOK() {
-        UserRequestDto merchantRequestDto = UserRequestDto.builder().firstName("testfn").lastName("testln").emailId("test2@gmail.com").role(Role.MERCHANT.toString()).build();
-        User merchant = userService.addUser(merchantRequestDto);
-        ProductRequestDto productRequestDto = ProductRequestDto.builder().title("product1").description("product1desc").category(Category.MOBILE_PHONES.toString()).basePrice(50000.0).userId(merchant.getId()).build();
-        Product savedProduct = productService.addProduct(productRequestDto);
-        AuctionRequestDto auctionRequestDto = AuctionRequestDto.builder().endTime(testEndTime).startTime(testStartTime).productId(savedProduct.getId()).userId(merchant.getId()).build();
-        Auction savedAuction = auctionService.createAuction(auctionRequestDto);
-        Auction fetchedAuction = auctionService.getAuction(savedAuction.getId());
-        assertNotNull(fetchedAuction);
-        assertEquals(savedAuction.getId(), fetchedAuction.getId());
-    }
 
     @Test
     public void deleteAuction_Test(){

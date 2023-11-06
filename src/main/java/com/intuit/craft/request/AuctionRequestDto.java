@@ -4,11 +4,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 
 @Data
 @Builder
-public class AuctionRequestDto {
+public class AuctionRequestDto implements Serializable {
     @NotEmpty
     private String startTime;
     @NotEmpty

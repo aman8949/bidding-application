@@ -39,8 +39,8 @@ public class Auction implements Serializable {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime endTime;
 
-    @Column(name = "current_max_bid", nullable = false)
-    private Double currentMaxBid;
+    @Column(name = "current_winning_bid", nullable = false)
+    private Double currentWinningBid;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
