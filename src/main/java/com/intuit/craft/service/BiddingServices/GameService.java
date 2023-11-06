@@ -44,7 +44,6 @@ public class GameService {
             throws OperationNotAllowedException, AuctionNotFoundException {
         if (!isLastMessage(bidRequestDto)) {
             Auction auction = auctionService.getAuction(bidRequestDto.getAuctionId());
-            if (auction.isHasEnded()) throw new OperationNotAllowedException("Auction has already ended");
             if (!userService.isRoleType(bidRequestDto, Role.BIDDER))
                 throw new OperationNotAllowedException("Role Bidder is expected to make bids only.");
 
