@@ -71,7 +71,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> getAllProductsByCategory(final String category) throws ProductNotFoundException {
+    public List<Product> getAllProductsByCategory(final String category) throws ProductNotFoundException, InvalidInputException {
         try{
             List<Product> productList = productRepository.findByCategory(Category.valueOf(category));
             if(productList.isEmpty())
@@ -80,7 +80,7 @@ public class ProductServiceImpl implements ProductService{
         }
         catch (IllegalArgumentException e){
             log.error("Invalid Category Provided");
-            throw new ProductNotFoundException("Invalid Category Provided");
+            throw new InvalidInputException("Invalid Category Provided");
         }
     }
 
