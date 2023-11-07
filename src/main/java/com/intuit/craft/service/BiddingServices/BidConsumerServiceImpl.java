@@ -28,16 +28,11 @@ public class BidConsumerServiceImpl implements BidConsumerService{
     public void executeBid(final BidRequestDto bidRequestDto){
         //returned from cache if its there, else inserted in cache
         Auction auction = auctionService.getAuction(bidRequestDto.getAuctionId());
-
-        if(BidMessageType.END_OF_BID.equals(BidMessageType.valueOf(bidRequestDto.getMessageType())))
-            auctionService.evictAuctionFromCache(auction);
-        else{
-            if(auction.getCurrentWinningBid() < bidRequestDto.getBidValue() || (auction.getCurrentWinningUser() == null && auction.getCurrentWinningBid().equals(bidRequestDto.getBidValue()))){
+            if(auction.getCurrentWinningBid() < bidRequestDto.getBidValue() || (auction.getCurrentWinningUser() == null && auction.getCurrentWinningBid().equals(bidRequestDto.getBidValue()))) {
                 User user = userService.getUser(bidRequestDto.getUserId());
                 auction.setCurrentWinningBid(bidRequestDto.getBidValue());
                 auction.setCurrentWinningUser(user);
                 auctionService.updateAuction(auction);
             }
-        }
     }
 }

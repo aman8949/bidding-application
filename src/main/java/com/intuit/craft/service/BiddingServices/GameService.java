@@ -30,19 +30,8 @@ public class GameService {
         this.userService = userService;
     }
 
-    public boolean isLastMessage(final BidRequestDto bidRequestDto)
-            throws UserNotFoundException, OperationNotAllowedException {
-        if (userService.isRoleType(bidRequestDto, Role.SYSTEM)
-                && bidRequestDto.getMessageType().equals(BidMessageType.END_OF_BID.toString())) return true;
-        else if (bidRequestDto.getMessageType().equals(BidMessageType.END_OF_BID.toString()))
-            throw new OperationNotAllowedException(
-                    "User is not authorized to perform the bid end operation.");
-        else return false;
-    }
-
     public void processBidRequest(final BidRequestDto bidRequestDto)
             throws OperationNotAllowedException, AuctionNotFoundException {
-        if (!isLastMessage(bidRequestDto)) {
             Auction auction = auctionService.getAuction(bidRequestDto.getAuctionId());
             if (!userService.isRoleType(bidRequestDto, Role.BIDDER))
                 throw new OperationNotAllowedException("Role Bidder is expected to make bids only.");
@@ -54,7 +43,6 @@ public class GameService {
             if (bidRequestDto.getBidValue() < auction.getProduct().getBasePrice())
                 throw new OperationNotAllowedException(
                         "Bidding for a price lower than base price is not expected");
-        }
         bidProducerService.sendMessage(bidRequestDto);
     }
 }
